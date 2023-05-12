@@ -1,5 +1,6 @@
 package dev.riv.REST_TurboBasic.services;
 
+import dev.riv.REST_TurboBasic.modelHelpers.UserAddress;
 import dev.riv.REST_TurboBasic.utilities.HashGenerator;
 import dev.riv.REST_TurboBasic.modelDTOs.UserDTO;
 import dev.riv.REST_TurboBasic.models.User;
@@ -43,16 +44,36 @@ public User createUser(UserDTO userDtoObj) throws NoSuchAlgorithmException {
     return userRepository.save(newUserObj);
 }
 
+public UserAddress createUserAddress(UserDTO userDtoObj) throws NoSuchAlgorithmException {
+
+    String localHash = "";
+    if(userDtoObj.getAddressHash().equals("")) { localHash = hashGenerator.createMD5Hash(); }
+    else { localHash = userDtoObj.getAddressHash(); }
+
+    UserAddress newUserAddressObj = new UserAddress(
+            -1,
+            localHash,
+            userDtoObj.getUserHash(),
+            userDtoObj.getShippingAddress(),
+            userDtoObj.getBillingAddress()
+    );
+    return userAddressRepository.save(newUserAddressObj);
+}
+
 public List<User> getAllUsers() {
     return userRepository.findAll();
 }
+public List<UserAddress> getAllUserAddresses() { return userAddressRepository.findAll(); }
 
-public User getUserById(String userHash) {
-    return userRepository.findById(userHash).orElse(null);
+public List<UserAddress> getAllLinkedAddresses(String userHash) {
+    return userAddressRepository.findAllByLinkedUserHash(userHash);
+}
+public User findByUserHash(String userHash) {
+    return userRepository.findByUserHash(userHash);
 }
 
-public User updateUser(UserDTO userDtoObj) throws NoSuchAlgorithmException {
-    User userObj = userRepository.findById(userDtoObj.getUserHash()).orElse(null);
+public User updateUser(UserDTO userDtoObj) {
+    User userObj = userRepository.findByUserHash(userDtoObj.getUserHash());
     userObj.setDisplayName(userDtoObj.getDisplayName());
     userObj.setProfilePicture(userDtoObj.getProfilePicture());
     userObj.setEmail(userDtoObj.getEmail());
@@ -62,8 +83,16 @@ public User updateUser(UserDTO userDtoObj) throws NoSuchAlgorithmException {
     return userRepository.save(userObj);
 }
 
-public void deleteUser(String userHash) {
-    userRepository.deleteById(userHash);
+public UserAddress updateUserAddress(UserDTO userDtoObj) {
+    UserAddress userAddressObj = userAddressRepository.findByAddressHash(userDtoObj.getAddressHash());
+    userAddressObj.setLinkedUserHash(userDtoObj.getUserHash());
+    userAddressObj.setShippingAddress(userDtoObj.getShippingAddress());
+    userAddressObj.setBillingAddress(userDtoObj.getBillingAddress());
+    return userAddressRepository.save(userAddressObj);
+}
+
+public void deleteUserByHash (String userHash) {
+    userRepository.deleteByUserHash(userHash);
 }
 
 

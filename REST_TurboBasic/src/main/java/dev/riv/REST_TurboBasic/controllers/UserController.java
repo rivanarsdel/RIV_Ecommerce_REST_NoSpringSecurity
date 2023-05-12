@@ -1,6 +1,7 @@
 package dev.riv.REST_TurboBasic.controllers;
 
 import dev.riv.REST_TurboBasic.modelDTOs.UserDTO;
+import dev.riv.REST_TurboBasic.modelHelpers.UserAddress;
 import dev.riv.REST_TurboBasic.models.User;
 import dev.riv.REST_TurboBasic.services.UserService;
 import org.modelmapper.ModelMapper;
@@ -29,20 +30,38 @@ public class UserController {
 
     @PostMapping("/register")
     public Optional<User> register(@RequestBody UserDTO userDTO) throws NoSuchAlgorithmException {
-        System.out.println("UserDTO: " + userDTO);
         User userObj = userService.createUser(userDTO);
-//        System.out.println("userDTO :" + userDTO.getEmail());
         return Optional.of(userObj);
     }
+    @PostMapping("/register/address")
+    public Optional<UserAddress> registerAddress(@RequestBody UserDTO userDTO) throws NoSuchAlgorithmException {
+        if(userDTO.getUserHash().equals("")) { return Optional.empty(); } else {
+            UserAddress userAddressObj = userService.createUserAddress(userDTO);
+            return Optional.of(userAddressObj);
+        }
+    }
+
     @GetMapping("/get")
     public Optional<List<User>> getAllUsers() {
         List<User> userList = userService.getAllUsers();
         return Optional.of(userList);
     }
 
+    @GetMapping("/get/address")
+    public Optional<List<UserAddress>> getAllUserAddresses() {
+        List<UserAddress> userAddressList = userService.getAllUserAddresses();
+        return Optional.of(userAddressList);
+    }
+
+    @GetMapping("/get/address/{userHash}")
+    public Optional<List<UserAddress>> getAllLinkedAddresses (@PathVariable String userHash) {
+        List<UserAddress> userAddressList = userService.getAllLinkedAddresses(userHash);
+        return Optional.of(userAddressList);
+    }
+
     @GetMapping("/get/{userHash}")
-    public Optional<User> getUserById(@PathVariable String userHash) {
-        User userObj = userService.getUserById(userHash);
+    public Optional<User> getUserByHash(@PathVariable String userHash) {
+        User userObj = userService.findByUserHash(userHash);
         return Optional.of(userObj);
     }
 
@@ -52,8 +71,17 @@ public class UserController {
         return Optional.of(userObj);
     }
 
+    @PutMapping("/user/update/address")
+    public Optional<UserAddress> updateUserAddress(UserDTO userDTO) throws NoSuchAlgorithmException {
+        UserAddress userAddressObj = userService.updateUserAddress(userDTO);
+        return Optional.of(userAddressObj);
+    }
+
     @DeleteMapping("/user/delete/{userHash}")
-    public void deleteUser(@PathVariable String userHash) {
+    public Optional<User> deleteUser(@PathVariable String userHash) {
+        User userObj = userService.findByUserHash(userHash);
+        userService.deleteUserByHash(userObj.getUserHash());
+        return Optional.of(userObj);
     }
 
 
