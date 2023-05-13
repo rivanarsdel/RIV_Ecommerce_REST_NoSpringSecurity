@@ -36,9 +36,16 @@ public class ProductService {
         return productRepository.save(newProduct);
     }
 
+
+
     public Product getProductById(int productId) {
         return productRepository.getReferenceById(productId);
     }
+
+    public Product getProductByHash(String productHash) {
+        return productRepository.findByProductHash(productHash);
+    }
+
 
     public Product updateProduct(ProductDTO productDto) {
         //Ultimately redundant, todo: mutate object in db via ID
@@ -51,7 +58,7 @@ public class ProductService {
         );
         return productRepository.save(newProduct);
     }
-
+//todo clean this mess up
     public boolean deleteProductById(int productId) {
 //        Todo make validation more elegant via "try" block in controller
         boolean deleteBool = false;
@@ -62,6 +69,9 @@ public class ProductService {
             System.out.println("No product found with id: " + productId);
         }
         return deleteBool;
+    }
+    public void deleteProductByProductHash(String productHash) {
+        productRepository.deleteByProductHash(productHash);
     }
 
 

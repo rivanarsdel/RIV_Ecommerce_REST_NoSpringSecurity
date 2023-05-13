@@ -2,6 +2,7 @@ package dev.riv.REST_TurboBasic.controllers;
 
 
 import dev.riv.REST_TurboBasic.modelDTOs.ProductDTO;
+import dev.riv.REST_TurboBasic.modelHelpers.UserAddress;
 import dev.riv.REST_TurboBasic.models.Product;
 import dev.riv.REST_TurboBasic.services.ProductService;
 import org.modelmapper.ModelMapper;
@@ -9,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.NoSuchAlgorithmException;
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -25,25 +27,34 @@ public class ProductController {
     }
 
     @PostMapping("/create")
-    public Optional<Product> createProduct(ProductDTO productDTO) throws NoSuchAlgorithmException {
+    public Optional<Product> createProduct(@RequestBody ProductDTO productDTO) throws NoSuchAlgorithmException {
         Product productObj = productService.createProduct(productDTO);
         return Optional.of(productObj);
     }
 
-    @GetMapping("/get")
-    //todo path variable inclusion
-    public Optional<Product> getProductById(int productId) {
+    @GetMapping("/get/{productId}")
+    public Optional<Product> getProductById(@PathVariable int productId) {
         return Optional.of(productService.getProductById(productId));
     }
 
+    @GetMapping("/get/{productHash}")
+    public Optional<Product> getProductByHash (@PathVariable String productHash) {
+        return Optional.of(productService.getProductByHash(productHash));
+    }
+
     @PutMapping("/update")
-    public Optional<Product> updateProduct(ProductDTO productDTO) {
+    public Optional<Product> updateProduct(@RequestBody ProductDTO productDTO) {
         return Optional.of(productService.updateProduct(productDTO));
     }
 
-    @DeleteMapping("/delete")
+    @DeleteMapping("/delete/{productId}")
     public boolean deleteProductById(int productId){
         return productService.deleteProductById(productId);
+    }
+
+    @DeleteMapping("/delete/{productHash}")
+    public void deleteProductByHash (@PathVariable String productHash) {
+        productService.deleteProductByProductHash(productHash);
     }
 
 

@@ -7,4 +7,8 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Integer> {
 
+    public Product findByProductHash(String productHash);
+    public void deleteByProductHash(String productHash);
+
+
 }

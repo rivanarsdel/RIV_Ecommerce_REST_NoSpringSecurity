@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/REST_TurboBasic.iml" filepath="$PROJECT_DIR$/.idea/REST_TurboBasic.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/dev.riv.REST_TurboBasic.iml" filepath="$PROJECT_DIR$/.idea/modules/dev.riv.REST_TurboBasic.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/dev.riv.REST_TurboBasic.main.iml" filepath="$PROJECT_DIR$/.idea/modules/dev.riv.REST_TurboBasic.main.iml" />
     </modules>
   </component>
