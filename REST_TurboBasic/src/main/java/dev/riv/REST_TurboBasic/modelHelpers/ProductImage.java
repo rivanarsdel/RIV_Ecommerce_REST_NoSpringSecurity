@@ -15,7 +15,7 @@ import java.io.Serializable;
 @Setter
 @Entity
 @Table(name = "product_image")
-public class ProductImageList implements Serializable {
+public class ProductImage implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")

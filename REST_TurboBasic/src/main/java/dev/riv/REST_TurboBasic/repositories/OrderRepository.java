@@ -7,4 +7,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 
 public interface OrderRepository extends JpaRepository<Order, String> {
+
+    public Order findByOrderHash(String orderHash);
+    public void deleteByOrderHash(String orderHash);
 }

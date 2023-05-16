@@ -1,56 +1,27 @@
 package dev.riv.REST_TurboBasic.modelDTOs;
 
 import dev.riv.REST_TurboBasic.models.Product;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.List;
 
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+
 public class OrderDTO {
 
-//     todo extract lists into table
+     int orderId;
+     String orderHash;
+     String linkedUserHash;
+     String linkedAddressHash;
      double customerPayment;
      List<Product> productList;
      List<Integer> productQuantities;
-     List<Double> priceModifiers;
 
-     public OrderDTO() {
-     }
-
-     public OrderDTO(double customerPayment, List<Product> productList, List<Integer> productQuantities, List<Double> priceModifiers) {
-          this.customerPayment = customerPayment;
-          this.productList = productList;
-          this.productQuantities = productQuantities;
-          this.priceModifiers = priceModifiers;
-     }
-
-     public double getCustomerPayment() {
-          return customerPayment;
-     }
-
-     public void setCustomerPayment(double customerPayment) {
-          this.customerPayment = customerPayment;
-     }
-
-     public List<Product> getProductList() {
-          return productList;
-     }
-
-     public void setProductList(List<Product> productList) {
-          this.productList = productList;
-     }
-
-     public List<Integer> getProductQuantities() {
-          return productQuantities;
-     }
-
-     public void setProductQuantities(List<Integer> productQuantities) {
-          this.productQuantities = productQuantities;
-     }
-
-     public List<Double> getPriceModifiers() {
-          return priceModifiers;
-     }
-
-     public void setPriceModifiers(List<Double> priceModifiers) {
-          this.priceModifiers = priceModifiers;
-     }
+     // Were we to want discounts, we could create an additional "helper" model productDiscounts which contains a name & modifier
 }
