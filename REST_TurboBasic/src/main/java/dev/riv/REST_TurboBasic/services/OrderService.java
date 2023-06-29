@@ -36,10 +36,10 @@ public class OrderService {
 //        Set up a try block for this
         Order localOrder = orderRepository.findByOrderHash(orderDto.getOrderHash()); //what happens if this is null?
         if(localOrder.getOrderId() != 0) { orderDto.setOrderId(localOrder.getOrderId()); }
-        if(orderDto.getOrderHash().equals("")) { orderDto.setOrderHash(hashGenerator.createMD5Hash()); }
-
+        if(orderDto.getOrderHash().equals("") & localOrder.getOrderHash().equals("")) { orderDto.setOrderHash(hashGenerator.createMD5Hash()); }
+        if(localOrder.getOrderHash().equals("")) { localOrder.setOrderHash(orderDto.getOrderHash()); }
         localOrder.setOrderId(orderDto.getOrderId());
-        localOrder.setOrderHash(orderDto.getOrderHash());
+        localOrder.setOrderHash(orderDto.getOrderHash()); //redundant
         localOrder.setLinkedUserHash(orderDto.getLinkedUserHash());
         localOrder.setLinkedAddressHash(orderDto.getLinkedAddressHash());
         localOrder.setCustomerPayment(orderDto.getCustomerPayment());

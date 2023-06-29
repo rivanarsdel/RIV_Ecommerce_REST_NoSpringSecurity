@@ -24,7 +24,7 @@ public class OrderController {
     }
 
     @PostMapping
-    public Optional<Order> upsertProduct (OrderDTO orderDTO) throws NoSuchAlgorithmException {
+    public Optional<Order> upsertOrder (OrderDTO orderDTO) throws NoSuchAlgorithmException {
         Order orderObj = orderService.upsertOrder(orderDTO);
         return Optional.of(orderObj);
     }
